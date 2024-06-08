@@ -16,7 +16,7 @@ interface Props {
 
 const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
     const handleNext = () => {
-        navigation.navigate('FormularioCamera');
+        navigation.navigate('Fotos do veiculo');
       };
   return (
     <Formik

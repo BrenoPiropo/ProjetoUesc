@@ -22,7 +22,7 @@ interface Props {
 
 const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
   const handleNext = () => {
-    navigation.navigate('FormularioParte3');
+    navigation.navigate('Observações');
   };
 
   return (

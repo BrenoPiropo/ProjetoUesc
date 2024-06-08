@@ -3,12 +3,19 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#000', // Fundo preto
+  },
+  title: {
+    color: '#fff', // Título branco
+    fontSize: 24, // Tamanho grande
+    textAlign: 'center',
+    marginVertical: 20,
   },
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 10,
   },
   cameraView: {
     flex: 1,
@@ -36,23 +43,28 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   photosContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
   },
   photoContainer: {
-    borderColor: 'gray',
-    borderWidth: 1,
     margin: 5,
+    position: 'relative',
   },
   photo: {
-    width: 250,
-    height: 250,
+    width: 100,
+    height: 100,
+    borderRadius: 5,
+  },
+  photoNumber: {
+    color: '#fff', // Texto branco
+    textAlign: 'center',
+    marginTop: 5,
   },
   deleteButton: {
     position: 'absolute',
-    top: -5,
-    right: -5,
+    top: 0,
+    right: 0,
     backgroundColor: 'red',
     borderRadius: 50,
     padding: 5,
@@ -67,6 +79,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
+    marginVertical: 10,
   },
   newPhotoButtonText: {
     color: '#fff',
@@ -82,22 +95,6 @@ export const styles = StyleSheet.create({
   submitButtonText: {
     color: '#fff',
     fontSize: 18,
-  },
-  fullScreenContainer: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
-  fullScreenImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
   },
   cameraContainer: {
     flex: 1,

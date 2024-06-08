@@ -4,17 +4,20 @@ import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { styles } from '../styles/CameraStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
 interface Props {
   navigation: StackNavigationProp<any>;
+  route: RouteProp<{ params: { photoCountRef: number } }, 'params'>;
 }
 
-const FormCamera = ({ navigation }: Props) => {
+const FormCamera4 = ({ navigation, route }: Props) => {
+  const { photoCountRef: initialPhotoCount } = route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [photos, setPhotos] = useState([]);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [showGallery, setShowGallery] = useState(true);
-  const photoCountRef = useRef(0);
+  const photoCountRef = useRef(initialPhotoCount);
 
   useEffect(() => {
     (async () => {
@@ -55,12 +58,12 @@ const FormCamera = ({ navigation }: Props) => {
   };
 
   const handleNext = () => {
-    navigation.navigate('Fotos das placas', { photoCountRef: photoCountRef.current });
+    navigation.navigate('Fotos do motor', { photoCountRef: photoCountRef.current });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Fotos do Veículo</Text>
+      <Text style={styles.title}>Fotos do Chassi</Text>
       <View style={styles.contentContainer}>
         {showGallery ? (
           <>
@@ -68,7 +71,7 @@ const FormCamera = ({ navigation }: Props) => {
               {photos.map((photo, index) => (
                 <View key={index} style={styles.photoContainer}>
                   <Image source={{ uri: photo }} style={styles.photo} />
-                  <Text style={styles.photoNumber}>Foto {index + 1}</Text>
+                  <Text style={styles.photoNumber}>Foto {initialPhotoCount + index + 1}</Text>
                   <TouchableOpacity style={styles.deleteButton} onPress={() => deletePhoto(index)}>
                     <AntDesign name="closecircleo" style={styles.deleteIcon} />
                   </TouchableOpacity>
@@ -96,4 +99,4 @@ const FormCamera = ({ navigation }: Props) => {
   );
 };
 
-export default FormCamera;
+export default FormCamera4;

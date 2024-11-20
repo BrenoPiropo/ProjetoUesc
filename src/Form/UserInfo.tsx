@@ -2,7 +2,12 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const UserInfo: React.FC = () => {
+// Definindo o tipo de navegação
+interface Props {
+  navigation: any; // Altere o tipo conforme seu setup de navegação
+}
+
+const UserInfo: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Imagem acima do botão User */}
@@ -12,7 +17,7 @@ const UserInfo: React.FC = () => {
       />
       {/* Botão User */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>User</Text>
+        <Text style={styles.buttonText}>Usuario</Text>
       </TouchableOpacity>
       {/* Ícones e suas respectivas frases */}
       <View style={styles.iconsContainer}>
@@ -28,7 +33,11 @@ const UserInfo: React.FC = () => {
           <Ionicons name="checkmark-done" size={80} color="#FFFFFF" />
           <Text style={styles.iconText}>Laudos Concluídos</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
+        {/* Ícone para voltar para a tela FormCategories */}
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={() => navigation.navigate('Categories')} // Navegar para a tela Categories
+        >
           <Ionicons name="list" size={80} color="#FFFFFF" />
           <Text style={styles.iconText}>Categorias</Text>
         </TouchableOpacity>
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
   },
   iconsContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',  // Permite que os ícones "quebrem" para a próxima linha
+    flexWrap: 'wrap', // Permite que os ícones "quebrem" para a próxima linha
     justifyContent: 'space-around', // Espaça os ícones igualmente
     width: '80%',
     marginTop: 20,
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
   iconButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: '40%',  // Define a largura dos botões dos ícones para garantir que caibam duas colunas
+    width: '40%', // Define a largura dos botões dos ícones para garantir que caibam duas colunas
     marginBottom: 20, // Adiciona espaçamento inferior
   },
   iconText: {

@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#000', // Cor de fundo preto
+    backgroundColor: '#5C6BC0', // Azul marinho claro (#5C6BC0)
   },
   input: {
     borderWidth: 1,

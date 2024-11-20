@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Formulario4Inputs {
   seriesAuxiliares?: string;
@@ -22,8 +23,14 @@ interface Props {
 }
 
 const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
-  const handleNext = () => {
-    navigation.navigate('Conclusão');
+  const handleNext = async (values: Formulario4Inputs) => {
+    try {
+      await AsyncStorage.setItem('formulario4Data', JSON.stringify(values));
+    } catch (error) {
+      console.error("Erro ao salvar os dados:", error);
+    }
+
+    navigation.navigate('Conclusão'); // Nome correto da tela
   };
 
   return (
@@ -40,12 +47,14 @@ const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
         licenciadoNome: '',
       }}
       onSubmit={(values) => {
-        onSubmit(values);
-        handleNext();
+        if (onSubmit) {
+          onSubmit(values);
+        }
+        handleNext(values);
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.exameTitle}>Formulário 4</Text>
           <TextInput
             style={styles.input}
@@ -58,22 +67,22 @@ const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
             style={styles.input}
             placeholder="Placa"
             onChangeText={(text) => {
-              const parsed = parseInt(text);
-              handleChange('placa');
+              const parsed = parseInt(text, 10);
+              handleChange('placa')(isNaN(parsed) ? '' : parsed.toString());
             }}
             onBlur={handleBlur('placa')}
-            value={values.placa ? String(values.placa) : ''}
+            value={values.placa !== undefined ? String(values.placa) : ''}
             keyboardType="numeric"
           />
           <TextInput
             style={styles.input}
             placeholder="VIN"
             onChangeText={(text) => {
-              const parsed = parseInt(text);
-              handleChange('vin');
+              const parsed = parseInt(text, 10);
+              handleChange('vin')(isNaN(parsed) ? '' : parsed.toString());
             }}
             onBlur={handleBlur('vin')}
-            value={values.vin ? String(values.vin) : ''}
+            value={values.vin !== undefined ? String(values.vin) : ''}
             keyboardType="numeric"
           />
           <TextInput
@@ -120,12 +129,15 @@ const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.licenciadoNome}
           />
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: 'green' }]}
-            onPress={handleNext}
+            style={[styles.button, {
+              backgroundColor: values.seriesAuxiliares && values.placa !== undefined && values.vin !== undefined && values.marcaModelo && values.categoria && values.cor && values.anoFabricacao && values.serieMotor && values.licenciadoNome ? 'blue' : 'gray'
+            }]}
+            onPress={() => handleSubmit()} 
+            disabled={!values.seriesAuxiliares || values.placa === undefined || values.vin === undefined || !values.marcaModelo || !values.categoria || !values.cor || !values.anoFabricacao || !values.serieMotor || !values.licenciadoNome}
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
-import {styles} from '../styles/FormStyles';
+import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface FormInputs {
   placaPortada?: number;
@@ -21,7 +22,13 @@ interface Props {
 }
 
 const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
-  const handleNext = () => {
+  const handleNext = async (values: FormInputs) => {
+    try {
+      await AsyncStorage.setItem('formData2', JSON.stringify(values));
+    } catch (error) {
+      console.error("Erro ao salvar os dados:", error);
+    }
+
     navigation.navigate('Observações');
   };
 
@@ -38,17 +45,19 @@ const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
         outrasNumeracoes: '',
       }}
       onSubmit={(values) => {
-        onSubmit(values);
-        handleNext();
+        if (onSubmit) {
+          onSubmit(values);
+        }
+        handleNext(values);
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.exameTitle}>Exame</Text>
           <TextInput
             style={styles.input}
             placeholder="Placa Portada"
-            onChangeText={handleChange('placaPortada')}
+            onChangeText={(text) => handleChange('placaPortada')(text)}
             onBlur={handleBlur('placaPortada')}
             value={values.placaPortada !== undefined ? String(values.placaPortada) : ''}
             keyboardType="numeric"
@@ -84,7 +93,7 @@ const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Número do CHASSI"
-            onChangeText={handleChange('numeroChassi')}
+            onChangeText={(text) => handleChange('numeroChassi')(text)}
             onBlur={handleBlur('numeroChassi')}
             value={values.numeroChassi !== undefined ? String(values.numeroChassi) : ''}
             keyboardType="numeric"
@@ -92,7 +101,7 @@ const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Numeração do Motor"
-            onChangeText={handleChange('numeracaoMotor')}
+            onChangeText={(text) => handleChange('numeracaoMotor')(text)}
             onBlur={handleBlur('numeracaoMotor')}
             value={values.numeracaoMotor !== undefined ? String(values.numeracaoMotor) : ''}
             keyboardType="numeric"
@@ -106,14 +115,14 @@ const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
           />
           <TouchableOpacity
             style={[styles.button, { 
-              backgroundColor: values.placaPortada && values.marcaModelo && values.especieTipo && values.cor && values.vidros && values.numeroChassi !== undefined && values.numeracaoMotor !== undefined ? 'blue' : 'gray' 
+              backgroundColor: values.placaPortada !== undefined && values.marcaModelo && values.especieTipo && values.cor && values.vidros && values.numeroChassi !== undefined && values.numeracaoMotor !== undefined ? 'blue' : 'gray' 
             }]}
-            onPress={handleNext}
-            disabled={!values.placaPortada || !values.marcaModelo || !values.especieTipo || !values.cor || !values.vidros || values.numeroChassi === undefined || values.numeracaoMotor === undefined}
+            onPress={() => handleSubmit()} 
+            disabled={values.placaPortada === undefined || !values.marcaModelo || !values.especieTipo || !values.cor || !values.vidros || values.numeroChassi === undefined || values.numeracaoMotor === undefined}
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

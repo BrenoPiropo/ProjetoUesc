@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface FormInputs {
   pericia: string;
@@ -16,7 +17,13 @@ interface Props {
 }
 
 const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
-  const handleNext = () => {
+  const handleNext = async (values: FormInputs) => {
+    try {
+      await AsyncStorage.setItem('formData', JSON.stringify(values));
+    } catch (error) {
+      console.error("Erro ao salvar os dados:", error);
+    }
+
     navigation.navigate('Exame');
   };
 
@@ -24,12 +31,15 @@ const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
     <Formik
       initialValues={{ pericia: '', preambulo: '', historico: '' }}
       onSubmit={(values) => {
-        onSubmit(values);
-        handleNext();
+        if (onSubmit) {
+          onSubmit(values); 
+        }
+        handleNext(values);
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.exameTitle}>Home</Text>
           <TextInput
             style={[styles.input, { height: 150 }]}
             placeholder="Objetivo da Perícia"
@@ -45,20 +55,20 @@ const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.preambulo}
           />
           <TextInput
-           style={[styles.input, { height: 150 }]}
+            style={[styles.input, { height: 150 }]}
             placeholder="Histórico"
             onChangeText={handleChange('historico')}
             onBlur={handleBlur('historico')}
             value={values.historico}
           />
           <TouchableOpacity
-            style={[styles.button, {backgroundColor: (values.pericia && values.preambulo && values.historico) ? 'blue' : 'gray'}]}
-            onPress={handleNext}
+            style={[styles.button, { backgroundColor: (values.pericia && values.preambulo && values.historico) ? 'blue' : 'gray' }]}
+            onPress={() => handleSubmit()} 
             disabled={!(values.pericia && values.preambulo && values.historico)}
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

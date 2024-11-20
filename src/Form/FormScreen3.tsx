@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
-import {styles} from '../styles/FormStyles'
+import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ObservacoesInputs {
   placas?: string;
@@ -20,8 +21,14 @@ interface Props {
 }
 
 const Formulario3: React.FC<Props> = ({ onSubmit, navigation }) => {
-  const handleNext = () => {
-    navigation.navigate('Series Auxiliares');
+  const handleNext = async (values: ObservacoesInputs) => {
+    try {
+      await AsyncStorage.setItem('observacoesData', JSON.stringify(values));
+    } catch (error) {
+      console.error("Erro ao salvar os dados:", error);
+    }
+
+    navigation.navigate('Series Auxiliares'); // Nome correto da tela
   };
 
   return (
@@ -36,12 +43,14 @@ const Formulario3: React.FC<Props> = ({ onSubmit, navigation }) => {
         dadosCentralEletronica: '',
       }}
       onSubmit={(values) => {
-        onSubmit(values);
-        handleNext(); // Navigate to next screen after submission
+        if (onSubmit) {
+          onSubmit(values);
+        }
+        handleNext(values);
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.exameTitle}>Observações</Text>
           <TextInput
             style={styles.input}
@@ -93,12 +102,15 @@ const Formulario3: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.dadosCentralEletronica}
           />
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: 'green' }]}
-            onPress={handleNext} // Navigate to next screen
+            style={[styles.button, {
+              backgroundColor: values.placas && values.vidros && values.etiquetas && values.plaquetaFabricacao && values.chassiVin && values.motor && values.dadosCentralEletronica ? 'blue' : 'gray'
+            }]}
+            onPress={() => handleSubmit()} 
+            disabled={!values.placas || !values.vidros || !values.etiquetas || !values.plaquetaFabricacao || !values.chassiVin || !values.motor || !values.dadosCentralEletronica}
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

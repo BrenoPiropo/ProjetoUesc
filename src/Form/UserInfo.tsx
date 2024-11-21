@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -42,6 +42,15 @@ const UserInfo: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.iconText}>Categorias</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Ícone para sair e ir para a tela de Login */}
+      <TouchableOpacity
+        style={styles.iconButtonLogout}
+        onPress={() => navigation.navigate('Login')} // Navegar para a tela Login
+      >
+        <Ionicons name="log-out" size={80} color="#FFFFFF" />
+        <Text style={styles.iconText}>Sair</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -85,8 +94,15 @@ const styles = StyleSheet.create({
     width: '40%', // Define a largura dos botões dos ícones para garantir que caibam duas colunas
     marginBottom: 20, // Adiciona espaçamento inferior
   },
+  iconButtonLogout: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20, // Adiciona espaço antes do botão de logout
+    marginBottom: 20, // Adiciona espaço inferior
+    right:90,
+  },
   iconText: {
-    marginTop: 10,
+    marginTop: 20,
     color: '#FFFFFF',
     fontSize: 16,
     textAlign: 'center', // Garante que o texto abaixo dos ícones fique centralizado

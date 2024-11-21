@@ -2,7 +2,10 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Categories from './src/Form/FormCategories'; // Certifique-se de ajustar o caminho para o arquivo da tela Categories
+
+// Importações das telas
+import Login from './src/Form/Login'; // Ajuste o caminho para o arquivo Login
+import Categories from './src/Form/FormCategories'; 
 import Formulario from './src/Form/FormScreen';
 import Formulario2 from './src/Form/FormScreen2';
 import Formulario3 from './src/Form/FormScreen3';
@@ -13,7 +16,7 @@ import FormCamera2 from './src/Form/FormCamera2';
 import FormCamera3 from './src/Form/FormCamera3';
 import FormCamera4 from './src/Form/FormCamera4';
 import FormCamera5 from './src/Form/FormCamera5';
-import UserInfo from './src/Form/UserInfo'; // Adicionando o caminho para a tela UserInfo
+import UserInfo from './src/Form/UserInfo';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -36,24 +39,29 @@ function MyDrawer() {
   );
 }
 
-// Navegação principal
+// Navegação principal (Stack Navigator)
 function MainNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Categories">
+    <Stack.Navigator initialRouteName="Login"> 
+     <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Categories"
         component={Categories}
-        options={{ headerShown: false }} // Esconde o cabeçalho do Stack para essa tela
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Drawer"
-        component={MyDrawer}
-        options={{ headerShown: false }} // Esconde o cabeçalho do Stack para o Drawer
+        component={MyDrawer} // MyDrawer é renderizado corretamente aqui
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="UserInfo"
-        component={UserInfo} // Adicionando a tela UserInfo no Stack
-        options={{ title: 'Informações do Usuário' }}
+    <Stack.Screen
+      name="UserInfo"
+      component={UserInfo}
+      options={{ title: 'Informações do Usuário' }}
       />
     </Stack.Navigator>
   );

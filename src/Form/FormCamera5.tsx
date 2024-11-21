@@ -14,8 +14,8 @@ interface Props {
 const FormCamera5 = ({ navigation, route }: Props) => {
   const { photoCountRef: initialPhotoCount } = route.params;
   const [hasPermission, setHasPermission] = useState(null);
-  const [photos, setPhotos] = useState([]);
-  const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [showGallery, setShowGallery] = useState(true);
   const photoCountRef = useRef(initialPhotoCount);
 
@@ -45,7 +45,7 @@ const FormCamera5 = ({ navigation, route }: Props) => {
     }
   };
 
-  const deletePhoto = (index) => {
+  const deletePhoto = (index: number) => {
     const updatedPhotos = [...photos];
     updatedPhotos.splice(index, 1);
     setPhotos(updatedPhotos);
@@ -57,8 +57,17 @@ const FormCamera5 = ({ navigation, route }: Props) => {
     setShowGallery(false);
   };
 
-  const handleNext = () => {
-    navigation.navigate('Fotos do motor', { photoCountRef: photoCountRef.current });
+  const handleFinish = () => {
+    Alert.alert(
+      'Laudo Concluído',
+      'O laudo foi concluído com sucesso!',
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('UserInfo'), // Navegar para a tela UserInfo
+        },
+      ]
+    );
   };
 
   return (
@@ -81,8 +90,8 @@ const FormCamera5 = ({ navigation, route }: Props) => {
             <TouchableOpacity style={styles.newPhotoButton} onPress={retakePhoto}>
               <Text style={styles.newPhotoButtonText}>Tirar nova foto</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.submitButton} onPress={handleNext}>
-              <Text style={styles.submitButtonText}>Próximo</Text>
+            <TouchableOpacity style={styles.submitButton} onPress={handleFinish}>
+              <Text style={styles.submitButtonText}>Terminar Laudo</Text>
             </TouchableOpacity>
           </>
         ) : capturedPhoto ? (

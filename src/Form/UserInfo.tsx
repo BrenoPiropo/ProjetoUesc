@@ -21,15 +21,25 @@ const UserInfo: React.FC<Props> = ({ navigation }) => {
       </TouchableOpacity>
       {/* Ícones e suas respectivas frases */}
       <View style={styles.iconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="document-text" size={80} color="#FFFFFF" />
-          <Text style={styles.iconText}>Meus Laudos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
+      <TouchableOpacity
+           style={styles.iconButton}
+           onPress={() => navigation.navigate('MeusLaudos')} // Navegar para Meus Laudos
+      >
+       <Ionicons name="document-text" size={80} color="#FFFFFF" />
+       <Text style={styles.iconText}>Meus Laudos</Text>
+      </TouchableOpacity>
+        <TouchableOpacity
+           style={styles.iconButton}
+           onPress={() => navigation.navigate('LaudosEmAndamento')} // Navegar para a nova tela
+          >
           <Ionicons name="hourglass" size={80} color="#FFFFFF" />
           <Text style={styles.iconText}>Laudos em Andamento</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
+
+        <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.navigate('LaudosConcluidos')} // Navegar para Laudos Concluídos
+        >
           <Ionicons name="checkmark-done" size={80} color="#FFFFFF" />
           <Text style={styles.iconText}>Laudos Concluídos</Text>
         </TouchableOpacity>

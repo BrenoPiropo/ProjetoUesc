@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ProjetoUesc",
-    "slug": "ProjetoUesc",
+    "slug": "projetodpt",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,8 +32,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "1c6ed6d3-a194-46c8-b965-9b975c6cd718"
+        "projectId": "3427ac10-b424-4188-9ead-5bf76f068ecd"
       }
-    }
+    },
+    "owner": "projetodpt"
   }
 }

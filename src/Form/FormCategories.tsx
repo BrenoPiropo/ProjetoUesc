@@ -8,23 +8,19 @@ interface Props {
 }
 
 const Categories: React.FC<Props> = ({ navigation }) => {
-  // Função para navegação para a tela Home do Drawer
   const navigateToHome = () => {
-    navigation.navigate('Drawer', { screen: 'Home' }); // Navega para a tela Home dentro do Drawer
+    navigation.navigate('Drawer', { screen: 'Home' }); 
   };
 
   return (
     <View style={styles.container}>
-      {/* Imagem acima do botão Categories */}
       <Image
         source={require('C:/Users/Breno Piropo/projeto/ProjetoUesc/assets/dpt.png')}
         style={styles.image}
       />
-      {/* Botão Categories */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Categories</Text>
       </TouchableOpacity>
-      {/* Ícones de seleção */}
       <View style={styles.iconsContainer}>
         <View style={styles.iconRow}>
           <TouchableOpacity style={styles.iconButton} onPress={navigateToHome}>

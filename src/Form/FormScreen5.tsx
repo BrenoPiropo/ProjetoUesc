@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAllFormData } from '../utils/dataService'; // Ajuste o caminho para a função correta
 
 interface ConclusaoInputs {
   condicoesTecnicas?: string;
@@ -18,13 +19,17 @@ interface Props {
 const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
   const handleNext = async (values: ConclusaoInputs) => {
     try {
-      await AsyncStorage.setItem('formulario5Data', JSON.stringify(values));
+      // Recupere todos os dados de todas as telas
+      const allData = await getAllFormData();
+      
+      // Exibe todos os dados no console
+      console.log("Todos os dados de todos os formulários:", allData);
+      
+      // Navegar para a próxima tela
+      navigation.navigate('Fotos do veiculo'); // Nome correto da próxima tela
     } catch (error) {
-      console.error("Erro ao salvar os dados:", error);
+      console.error("Erro ao carregar os dados:", error);
     }
-
-    // Navegar para a próxima tela
-    navigation.navigate('Fotos do veiculo');
   };
 
   return (
@@ -34,12 +39,17 @@ const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
         conclusao: '',
       }}
       onSubmit={(values) => {
-
-        handleNext(values); 
+        if (onSubmit) {
+          onSubmit(values);
+        }
+        handleNext(values);
+        
+        // Adicionando um console.log aqui para verificar os dados
+        console.log("Dados enviados para o handleNext:", values);
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.container}
           style={{ flex: 1 }}
         >
@@ -59,8 +69,11 @@ const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.conclusao}
           />
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: 'green' }]}
+            style={[styles.button, {
+              backgroundColor: values.condicoesTecnicas && values.conclusao ? 'green' : 'gray',
+            }]}
             onPress={() => handleSubmit()}
+            disabled={!values.condicoesTecnicas || !values.conclusao}
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>

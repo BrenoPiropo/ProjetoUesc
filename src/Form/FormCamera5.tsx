@@ -5,6 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { styles } from '../styles/CameraStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import { generatePDF } from '../utils/generatePdf'; // Importa a função de gerar PDF
+import { getAllFormData, saveImagesToForm } from '../utils/dataService'; // Função para pegar e salvar os dados
 
 interface Props {
   navigation: StackNavigationProp<any>;
@@ -13,11 +15,11 @@ interface Props {
 
 const FormCamera5 = ({ navigation, route }: Props) => {
   const { photoCountRef: initialPhotoCount } = route.params;
-  const [hasPermission, setHasPermission] = useState(null);
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [photos, setPhotos] = useState<string[]>([]); // Garantindo que seja um array
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
-  const [showGallery, setShowGallery] = useState(true);
-  const photoCountRef = useRef(initialPhotoCount);
+  const [showGallery, setShowGallery] = useState<boolean>(true);
+  const photoCountRef = useRef<number>(initialPhotoCount);
 
   useEffect(() => {
     (async () => {
@@ -36,7 +38,8 @@ const FormCamera5 = ({ navigation, route }: Props) => {
 
       if (!result.canceled) {
         setCapturedPhoto(result.assets[0].uri);
-        setPhotos([...photos, result.assets[0].uri]);
+        // Garantir que setPhotos sempre receba um array
+        setPhotos((prevPhotos) => [...prevPhotos, result.assets[0].uri]);
         setShowGallery(true);
         photoCountRef.current = photoCountRef.current + 1;
       }
@@ -46,9 +49,11 @@ const FormCamera5 = ({ navigation, route }: Props) => {
   };
 
   const deletePhoto = (index: number) => {
-    const updatedPhotos = [...photos];
-    updatedPhotos.splice(index, 1);
-    setPhotos(updatedPhotos);
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos];
+      updatedPhotos.splice(index, 1);
+      return updatedPhotos;
+    });
     photoCountRef.current = photoCountRef.current - 1;
   };
 
@@ -57,17 +62,25 @@ const FormCamera5 = ({ navigation, route }: Props) => {
     setShowGallery(false);
   };
 
-  const handleFinish = () => {
-    Alert.alert(
-      'Laudo Concluído',
-      'O laudo foi concluído com sucesso!',
-      [
+  const handleFinish = async () => {
+    try {
+      console.log('Iniciando o processo de finalização...');
+      const allFormData = await getAllFormData();
+      console.log('Dados recuperados:', allFormData);
+
+      await generatePDF(allFormData);
+      console.log('PDF gerado com sucesso!');
+
+      Alert.alert('Laudo Concluído', 'O laudo foi concluído e o PDF foi gerado com sucesso!', [
         {
           text: 'OK',
-          onPress: () => navigation.navigate('UserInfo'), // Navegar para a tela UserInfo
+          onPress: () => navigation.navigate('UserInfo'),
         },
-      ]
-    );
+      ]);
+    } catch (error) {
+      console.error('Erro ao finalizar o laudo:', error);
+      Alert.alert('Erro', 'Houve um problema ao gerar o PDF. Tente novamente.');
+    }
   };
 
   return (

@@ -25,13 +25,10 @@ const Login = ({ navigation }: Props) => {
       <TouchableOpacity style={styles.appButton}>
         <Text style={styles.appButtonText}>Nome do Aplicativo</Text>
       </TouchableOpacity>
-
-      {/* Imagem */}
-      <Image 
-        source={require('C:/Users/Breno Piropo/projeto/ProjetoUesc/assets/dpt.png')}
+      <Image
+        source={require('../../assets/DPT.jpg')}
         style={styles.image}
       />
-
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Usuário</Text>
         <TextInput
@@ -65,28 +62,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5C6BC0',
+    backgroundColor: '#03045E',
     padding: 20,
+  },
+  image: {
+    width: 180,
+    height: 180,
+    marginBottom: 20,
+    borderRadius: 90, // Torna a imagem arredondada
   },
   appButton: {
     width: 352,
     height: 47,
-    backgroundColor: '#6D5B40',
+    backgroundColor: '#D9DCD6',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 80,
     borderRadius: 8,
   },
   appButtonText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  image: {
-    width: 200, // Ajuste o tamanho conforme necessário
-    height: 200,
-    marginBottom: 20,
-    resizeMode: 'contain', // Garante que a imagem não será cortada
   },
   title: {
     fontSize: 24,
@@ -124,5 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
 
 export default Login;

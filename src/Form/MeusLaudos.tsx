@@ -36,12 +36,12 @@ const MeusLaudos: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5C6BC0',
+    backgroundColor: '#03045E',
   },
   button: {
     width: 382,
     height: 47,
-    backgroundColor: '#6D5B40',
+    backgroundColor: '#D9DCD6',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#000000',
     fontWeight: 'bold',
   },
   list: {

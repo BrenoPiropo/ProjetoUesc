@@ -15,7 +15,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('C:/Users/Breno Piropo/projeto/ProjetoUesc/assets/dpt.png')}
+        source={require('../../assets/DPT.jpg')}
         style={styles.image}
       />
       <TouchableOpacity style={styles.button}>
@@ -53,7 +53,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5C6BC0',
+    backgroundColor: '#03045E',
     alignItems: 'center',
     paddingTop: 50,
   },
@@ -61,18 +61,19 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     marginBottom: 20,
+    borderRadius: 90, // Torna a imagem arredondada
   },
   button: {
     width: 352,
     height: 47,
-    backgroundColor: '#6D5B40',
+    backgroundColor: '#D9DCD6',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -98,5 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default Categories;

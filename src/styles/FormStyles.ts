@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#5C6BC0', // Azul marinho claro (#5C6BC0)
+    backgroundColor: '#03045E', 
   },
   input: {
     borderWidth: 1,
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    color: '#fff', // Cor do texto do botão
+    color: '#000000', // Cor do texto do botão
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
@@ -21,14 +21,24 @@ interface Props {
 }
 
 const Formulario3: React.FC<Props> = ({ onSubmit, navigation }) => {
+  const [allValues, setAllValues] = useState<ObservacoesInputs[]>([]); // Armazena todos os valores submetidos
+
   const handleNext = async (values: ObservacoesInputs) => {
     try {
-      await AsyncStorage.setItem('observacoesData', JSON.stringify(values));
+      // Salva os dados localmente no AsyncStorage
+      await AsyncStorage.setItem('formulario3Data', JSON.stringify(values));
+
+      // Atualiza o estado com os novos valores
+      setAllValues((prevValues) => [...prevValues, values]);
+
+      // Exibe todos os valores acumulados no console
+      console.log("Todos os valores submetidos até agora:", [...allValues, values]);
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
     }
 
-    navigation.navigate('Series Auxiliares'); // Nome correto da tela
+    // Navega para a próxima tela
+    navigation.navigate('Series Auxiliares'); // Nome correto da próxima tela
   };
 
   return (
@@ -102,11 +112,31 @@ const Formulario3: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.dadosCentralEletronica}
           />
           <TouchableOpacity
-            style={[styles.button, {
-              backgroundColor: values.placas && values.vidros && values.etiquetas && values.plaquetaFabricacao && values.chassiVin && values.motor && values.dadosCentralEletronica ? 'blue' : 'gray'
-            }]}
-            onPress={() => handleSubmit()} 
-            disabled={!values.placas || !values.vidros || !values.etiquetas || !values.plaquetaFabricacao || !values.chassiVin || !values.motor || !values.dadosCentralEletronica}
+            style={[
+              styles.button,
+              {
+                backgroundColor:
+                  values.placas &&
+                  values.vidros &&
+                  values.etiquetas &&
+                  values.plaquetaFabricacao &&
+                  values.chassiVin &&
+                  values.motor &&
+                  values.dadosCentralEletronica
+                    ? 'blue'
+                    : 'gray',
+              },
+            ]}
+            onPress={() => handleSubmit()}
+            disabled={
+              !values.placas ||
+              !values.vidros ||
+              !values.etiquetas ||
+              !values.plaquetaFabricacao ||
+              !values.chassiVin ||
+              !values.motor ||
+              !values.dadosCentralEletronica
+            }
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>

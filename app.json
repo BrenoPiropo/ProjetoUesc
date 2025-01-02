@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ProjetoUesc",
-    "slug": "ProjetoUesc",
+    "name": "projetouesc-app",
+    "slug": "projetodpt",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,15 +25,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.projetodpt.projetodpt"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "1c6ed6d3-a194-46c8-b965-9b975c6cd718"
+        "projectId": "80ee64cf-7f2d-4d7f-9e8e-2b0cb54f7840"
       }
-    }
+    },
+    "owner": "projetodpt"
   }
 }

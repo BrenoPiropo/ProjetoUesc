@@ -17,6 +17,9 @@ import FormCamera3 from './src/Form/FormCamera3';
 import FormCamera4 from './src/Form/FormCamera4';
 import FormCamera5 from './src/Form/FormCamera5';
 import UserInfo from './src/Form/UserInfo';
+import LaudosEmAndamento from './src/Form/LaudosEmAndamento'; 
+import MeusLaudos from './src/Form/MeusLaudos'; 
+import LaudosConcluidos from './src/Form/LaudosConcluidos'; 
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,8 +45,8 @@ function MyDrawer() {
 // Navegação principal (Stack Navigator)
 function MainNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Login"> 
-     <Stack.Screen
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{ headerShown: false }}
@@ -55,13 +58,28 @@ function MainNavigator() {
       />
       <Stack.Screen
         name="Drawer"
-        component={MyDrawer} // MyDrawer é renderizado corretamente aqui
+        component={MyDrawer}
         options={{ headerShown: false }}
       />
-    <Stack.Screen
-      name="UserInfo"
-      component={UserInfo}
-      options={{ title: 'Informações do Usuário' }}
+      <Stack.Screen
+        name="UserInfo"
+        component={UserInfo}
+        options={{ title: 'Informações do Usuário' }}
+      />
+      <Stack.Screen
+        name="LaudosEmAndamento"
+        component={LaudosEmAndamento}
+        options={{ title: 'Laudos em Andamento' }}
+      />
+      <Stack.Screen
+        name="MeusLaudos"
+        component={MeusLaudos}
+        options={{ title: 'Meus Laudos' }}
+      />
+      <Stack.Screen
+        name="LaudosConcluidos"
+        component={LaudosConcluidos}
+        options={{ title: 'Laudos Concluídos' }}
       />
     </Stack.Navigator>
   );

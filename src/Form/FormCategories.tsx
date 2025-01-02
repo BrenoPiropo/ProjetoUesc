@@ -8,23 +8,19 @@ interface Props {
 }
 
 const Categories: React.FC<Props> = ({ navigation }) => {
-  // Função para navegação para a tela Home do Drawer
   const navigateToHome = () => {
-    navigation.navigate('Drawer', { screen: 'Home' }); // Navega para a tela Home dentro do Drawer
+    navigation.navigate('Drawer', { screen: 'Home' }); 
   };
 
   return (
     <View style={styles.container}>
-      {/* Imagem acima do botão Categories */}
       <Image
-        source={require('C:/Users/Breno Piropo/projeto/ProjetoUesc/assets/dpt.png')}
+        source={require('../../assets/DPT.jpg')}
         style={styles.image}
       />
-      {/* Botão Categories */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Categories</Text>
       </TouchableOpacity>
-      {/* Ícones de seleção */}
       <View style={styles.iconsContainer}>
         <View style={styles.iconRow}>
           <TouchableOpacity style={styles.iconButton} onPress={navigateToHome}>
@@ -57,7 +53,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5C6BC0',
+    backgroundColor: '#03045E',
     alignItems: 'center',
     paddingTop: 50,
   },
@@ -65,18 +61,19 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     marginBottom: 20,
+    borderRadius: 90, // Torna a imagem arredondada
   },
   button: {
     width: 352,
     height: 47,
-    backgroundColor: '#6D5B40',
+    backgroundColor: '#D9DCD6',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#000000',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -102,5 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default Categories;

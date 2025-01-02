@@ -18,6 +18,8 @@ web-build/
 
 # Metro
 .metro-health-check*
+/android
+/ios
 
 # debug
 npm-debug.*

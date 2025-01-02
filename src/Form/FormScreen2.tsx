@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
@@ -22,13 +22,23 @@ interface Props {
 }
 
 const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
+  const [allValues, setAllValues] = useState<FormInputs[]>([]); // Armazena todos os valores submetidos
+
   const handleNext = async (values: FormInputs) => {
     try {
-      await AsyncStorage.setItem('formData2', JSON.stringify(values));
+      // Salva os dados localmente no AsyncStorage
+      await AsyncStorage.setItem('formulario2Data', JSON.stringify(values));
+
+      // Atualiza o estado com os novos valores
+      setAllValues((prevValues) => [...prevValues, values]);
+
+      // Exibe todos os valores acumulados no console
+      console.log("Todos os valores submetidos até agora:", [...allValues, values]);
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
     }
 
+    // Navega para a próxima tela
     navigation.navigate('Observações');
   };
 
@@ -114,11 +124,31 @@ const Formulario2: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.outrasNumeracoes}
           />
           <TouchableOpacity
-            style={[styles.button, { 
-              backgroundColor: values.placaPortada !== undefined && values.marcaModelo && values.especieTipo && values.cor && values.vidros && values.numeroChassi !== undefined && values.numeracaoMotor !== undefined ? 'blue' : 'gray' 
-            }]}
-            onPress={() => handleSubmit()} 
-            disabled={values.placaPortada === undefined || !values.marcaModelo || !values.especieTipo || !values.cor || !values.vidros || values.numeroChassi === undefined || values.numeracaoMotor === undefined}
+            style={[
+              styles.button,
+              {
+                backgroundColor:
+                  values.placaPortada !== undefined &&
+                  values.marcaModelo &&
+                  values.especieTipo &&
+                  values.cor &&
+                  values.vidros &&
+                  values.numeroChassi !== undefined &&
+                  values.numeracaoMotor !== undefined
+                    ? 'blue'
+                    : 'gray',
+              },
+            ]}
+            onPress={() => handleSubmit()}
+            disabled={
+              values.placaPortada === undefined ||
+              !values.marcaModelo ||
+              !values.especieTipo ||
+              !values.cor ||
+              !values.vidros ||
+              values.numeroChassi === undefined ||
+              values.numeracaoMotor === undefined
+            }
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
@@ -17,13 +17,23 @@ interface Props {
 }
 
 const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
+  const [allValues, setAllValues] = useState<FormInputs[]>([]); // Armazena todos os valores submetidos
+
   const handleNext = async (values: FormInputs) => {
     try {
-      await AsyncStorage.setItem('formData', JSON.stringify(values));
+      // Salva os dados localmente no AsyncStorage
+      await AsyncStorage.setItem('formulario1Data', JSON.stringify(values));
+
+      // Atualiza o estado com os novos valores
+      setAllValues((prevValues) => [...prevValues, values]);
+
+      // Exibe todos os valores no console
+      console.log("Todos os valores submetidos até agora:", [...allValues, values]);
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
     }
 
+    // Navega para a próxima tela
     navigation.navigate('Exame');
   };
 
@@ -32,7 +42,7 @@ const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
       initialValues={{ pericia: '', preambulo: '', historico: '' }}
       onSubmit={(values) => {
         if (onSubmit) {
-          onSubmit(values); 
+          onSubmit(values);
         }
         handleNext(values);
       }}
@@ -62,8 +72,11 @@ const Formulario: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.historico}
           />
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: (values.pericia && values.preambulo && values.historico) ? 'blue' : 'gray' }]}
-            onPress={() => handleSubmit()} 
+            style={[
+              styles.button,
+              { backgroundColor: (values.pericia && values.preambulo && values.historico) ? 'blue' : 'gray' },
+            ]}
+            onPress={() => handleSubmit()}
             disabled={!(values.pericia && values.preambulo && values.historico)}
           >
             <Text style={styles.buttonText}>Próximo</Text>

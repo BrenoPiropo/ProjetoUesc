@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
@@ -23,14 +23,24 @@ interface Props {
 }
 
 const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
+  const [allValues, setAllValues] = useState<Formulario4Inputs[]>([]); // Estado para armazenar todos os dados
+
   const handleNext = async (values: Formulario4Inputs) => {
     try {
+      // Salva os dados no AsyncStorage
       await AsyncStorage.setItem('formulario4Data', JSON.stringify(values));
+
+      // Atualiza o estado com os novos valores
+      setAllValues((prevValues) => [...prevValues, values]);
+
+      // Exibe no console todos os valores submetidos até agora
+      console.log("Todos os valores submetidos até agora:", [...allValues, values]);
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
     }
 
-    navigation.navigate('Conclusão'); // Nome correto da tela
+    // Navega para a próxima tela
+    navigation.navigate('Conclusão'); // Nome correto da próxima tela
   };
 
   return (
@@ -129,11 +139,35 @@ const Formulario4: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.licenciadoNome}
           />
           <TouchableOpacity
-            style={[styles.button, {
-              backgroundColor: values.seriesAuxiliares && values.placa !== undefined && values.vin !== undefined && values.marcaModelo && values.categoria && values.cor && values.anoFabricacao && values.serieMotor && values.licenciadoNome ? 'blue' : 'gray'
-            }]}
-            onPress={() => handleSubmit()} 
-            disabled={!values.seriesAuxiliares || values.placa === undefined || values.vin === undefined || !values.marcaModelo || !values.categoria || !values.cor || !values.anoFabricacao || !values.serieMotor || !values.licenciadoNome}
+            style={[
+              styles.button,
+              {
+                backgroundColor:
+                  values.seriesAuxiliares &&
+                  values.placa !== undefined &&
+                  values.vin !== undefined &&
+                  values.marcaModelo &&
+                  values.categoria &&
+                  values.cor &&
+                  values.anoFabricacao &&
+                  values.serieMotor &&
+                  values.licenciadoNome
+                    ? 'blue'
+                    : 'gray',
+              },
+            ]}
+            onPress={() => handleSubmit()}
+            disabled={
+              !values.seriesAuxiliares ||
+              values.placa === undefined ||
+              values.vin === undefined ||
+              !values.marcaModelo ||
+              !values.categoria ||
+              !values.cor ||
+              !values.anoFabricacao ||
+              !values.serieMotor ||
+              !values.licenciadoNome
+            }
           >
             <Text style={styles.buttonText}>Próximo</Text>
           </TouchableOpacity>

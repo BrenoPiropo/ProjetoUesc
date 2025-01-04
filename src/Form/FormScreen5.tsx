@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from '../styles/FormStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAllFormData } from '../utils/dataService'; // Ajuste o caminho para a função correta
 
 interface ConclusaoInputs {
   condicoesTecnicas?: string;
@@ -19,16 +18,14 @@ interface Props {
 const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
   const handleNext = async (values: ConclusaoInputs) => {
     try {
-      // Recupere todos os dados de todas as telas
-      const allData = await getAllFormData();
-      
-      // Exibe todos os dados no console
-      console.log("Todos os dados de todos os formulários:", allData);
-      
+      // Salva os dados do formulário no AsyncStorage
+      await AsyncStorage.setItem('formulario5Data', JSON.stringify(values));
+      console.log('formulario5Data salvo com sucesso:', values);
+
       // Navegar para a próxima tela
       navigation.navigate('Fotos do veiculo'); // Nome correto da próxima tela
     } catch (error) {
-      console.error("Erro ao carregar os dados:", error);
+      console.error("Erro ao salvar os dados:", error);
     }
   };
 
@@ -43,7 +40,7 @@ const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
           onSubmit(values);
         }
         handleNext(values);
-        
+
         // Adicionando um console.log aqui para verificar os dados
         console.log("Dados enviados para o handleNext:", values);
       }}
@@ -69,9 +66,12 @@ const Formulario5: React.FC<Props> = ({ onSubmit, navigation }) => {
             value={values.conclusao}
           />
           <TouchableOpacity
-            style={[styles.button, {
-              backgroundColor: values.condicoesTecnicas && values.conclusao ? 'green' : 'gray',
-            }]}
+            style={[
+              styles.button,
+              {
+                backgroundColor: values.condicoesTecnicas && values.conclusao ? 'green' : 'gray',
+              },
+            ]}
             onPress={() => handleSubmit()}
             disabled={!values.condicoesTecnicas || !values.conclusao}
           >

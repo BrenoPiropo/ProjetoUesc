@@ -85,9 +85,6 @@ const FormCamera2 = ({ navigation, route }: Props) => {
         <TouchableOpacity style={styles.cameraButton} onPress={takePicture}>
           <Text style={styles.cameraButtonText}>Tirar Foto</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.newPhotoButton} onPress={retakePhoto}>
-          <Text style={styles.newPhotoButtonText}>Descartar Fotos</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.submitButton} onPress={handleNext}>
           <Text style={styles.submitButtonText}>Próximo</Text>
         </TouchableOpacity>

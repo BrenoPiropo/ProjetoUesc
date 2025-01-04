@@ -74,12 +74,13 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   newPhotoButton: {
-    backgroundColor: 'blue',
-    padding: 20,
-    borderRadius: 5,
-    width: '100%',
-    alignItems: 'center',
-    marginVertical: 10,
+      backgroundColor: 'red',
+      padding: 20,
+      borderRadius: 50,
+      width: '100%',
+      alignItems: 'center',
+      marginTop: 20,
+    
   },
   newPhotoButtonText: {
     color: '#fff',
@@ -88,9 +89,10 @@ export const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: 'green',
     padding: 20,
-    borderRadius: 5,
+    borderRadius: 50,
     width: '100%',
     alignItems: 'center',
+    marginTop: 20,
   },
   submitButtonText: {
     color: '#fff',
